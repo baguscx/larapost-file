@@ -34,8 +34,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->$request;
-        
+        $title = $request->input('title');
+        $content = $request->input('content');
+
+        $posts = Storage::get('posts.txt');
+        $posts = explode("\n", $posts);
+
+        $id = count($posts) + 1;
+        $new_post = $id . "," . $title . "," . $content . "," . date('Y-m-d H:i:s');
+        $posts[] = $new_post;
+        $posts = implode("\n", $posts);
+        Storage::put('posts.txt', $posts);
+
+        return redirect()->route('posts.index');
     }
 
     /**
