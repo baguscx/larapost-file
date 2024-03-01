@@ -12,11 +12,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        // $posts = Storage::disk('local')->files('posts');
-        $posts =Storage::get('posts.txt');
-        echo $posts;
-        exit;
-        return view('posts.index');
+        //mengambil data dari file posts.txt
+        $posts = Storage::get('posts.txt');
+        $posts = explode("\n", $posts);
+        $view_data = [
+            'posts' => $posts
+        ];
+        return view('posts.index', $view_data);
     }
 
     /**
